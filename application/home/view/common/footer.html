@@ -1,0 +1,37 @@
+<nav id="tablist" class="mui-bar mui-bar-tab">
+    <a class="mui-tab-item" href="{:url('/home/index/index')}">
+        <span class="mui-icon mui-icon-home"></span>
+        <span class="mui-tab-label">首页</span>
+    </a>
+    <a class="mui-tab-item" href="{:url('/home/subject/subject/search')}">
+        <span class="mui-icon mui-icon-search"></span>
+        <span class="mui-tab-label">搜索</span>
+    </a>
+    <a class="mui-tab-item" href="{:url('/home/business/business/index')}">
+        <span class="mui-icon mui-icon-gear"></span>
+        <span class="mui-tab-label">我的</span>
+    </a>
+</nav>
+<script>
+    mui('#tablist').on('tap', 'a', function () {
+        location.href = this.href
+    })
+
+    //通过js获取链接判断那个状态要激活
+    var arr = location.pathname.split('/');
+    //将数组arr中的空数组过滤
+    var path = arr.filter(function (value) {
+        return value && value.trim();
+    })
+    //将数组转换为字符串
+    var str = path.slice(0, 2).join('/')
+
+    if (str == 'home/index') {
+        $('#tablist a').eq(0).addClass('mui-active').siblings().removeClass('mui-active')
+    } 
+    else if (path == 'home/subject') {
+        $('#tablist a').eq(1).addClass('mui-active').siblings().removeClass('mui-active')
+    } else if (str == 'home/business') {
+        $('#tablist a').eq(2).addClass('mui-active').siblings().removeClass('mui-active')
+    }
+</script>

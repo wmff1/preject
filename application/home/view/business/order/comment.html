@@ -1,0 +1,62 @@
+<link href="/assets/home/css/WeUI/weui.min.css" rel="stylesheet" />
+
+<link href="/assets/home/jsRapStar/jsRapStar.css" rel="stylesheet">
+
+<script type="text/javascript" src="/assets/home/jsRapStar/jsRapStar.js"></script>
+<style>
+    body {
+        font-family: 'Microsoft YaHei';
+    }
+
+    p {
+        font-size: 4.5vw;
+    }
+</style>
+
+<body>
+    <header class="mui-bar mui-bar-nav" style="position: sticky;touch-action: none;">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: gray;"
+            href="./order.html"></a>
+        <h1 class="mui-title">课程评论</h1>
+    </header>
+    <img src="/assets/home/images/video6.png" style="width:100%;">
+    <div class="weui-cells__title">{$order.subject['title']}</div>
+
+    <form method="post">
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    {if condition="$order.comment"}
+                    <textarea disabled name="comment" class="weui-textarea" placeholder="请输入内容"
+                        rows="3">{$order.comment}</textarea>
+                    {else /}
+                    <textarea name="comment" class="weui-textarea" placeholder="请输入内容" rows="3"></textarea>
+                    {/if}
+                    <div class="weui-textarea-counter"><span>0</span>/200</div>
+                </div>
+            </div>
+        </div>
+
+        {if condition="$order.rate"}
+        <div  disabled style="pointer-events:none" id="example" start="{$order.rate}"></div>
+        <input disabled type="hidden" name="rate" value="{$order.rate}" id="rate">
+        {else /}
+        <div  id="example" start="{$order.rate}"></div>
+        <input  type="hidden" name="rate" value="{$order.rate}" id="rate">
+        {/if}
+
+        {if condition="!$order.comment"}
+        <div class="weui-btn-area">
+            <input type="submit" class="weui-btn weui-btn_primary"></input>
+        </div>
+        {/if}
+    </form>
+</body>
+<script>
+    $('#example').jsRapStar({
+        onClick: function (score) {
+            // $(this)[0].StarF.css({ color: 'red' });
+            $('#rate').val(score)
+        }
+    });
+</script>

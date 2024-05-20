@@ -1,0 +1,116 @@
+<!-- 轮播图插件 -->
+<link rel="stylesheet" href="/assets/home/swiper/swiper-bundle.min.css">
+<script src="/assets/home/swiper/swiper-bundle.min.js"></script>
+<style>
+    * {
+        touch-action: pan-y;
+    }
+
+    body {
+        font-family: 'Microsoft YaHei';
+    }
+
+    p {
+        font-size: 4.5vw;
+    }
+
+    h5 {
+        padding-top: 8px;
+        padding-bottom: 8px;
+        text-indent: 12px;
+    }
+
+    .mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body {
+        font-size: 15px;
+        margin-top: 8px;
+        color: #333;
+    }
+
+    .mui-bar-nav~.mui-content {
+        padding-top: 0;
+    }
+
+    .swiper img {
+        width: 100%;
+        height: 200px;
+    }
+</style>
+
+<body>
+    <!-- 轮播图 -->
+    <div class="swiper">
+        <div class="swiper-wrapper">
+            {foreach $toplist as $item}
+            <div class="swiper-slide">
+                <img src="{$item.thumbs_text}">
+            </div>
+            {/foreach}
+        </div>
+        <!-- <div class="swiper-button-prev"></div> -->
+        <!--左箭头。如果放置在swiper外面，需要自定义样式。-->
+        <!-- <div class="swiper-button-next"></div> -->
+        <!--右箭头。如果放置在swiper外面，需要自定义样式。-->
+        {foreach $toplist as $item}
+        <div class="swiper-pagination"></div>
+        {/foreach}
+    </div>
+
+    <!-- 搜索框 -->
+    <form action="{:url('/home/subject/Subject/search')}" method="get">
+        <div class="mui-input-row mui-search">
+            <input type="search" name="keywords" class="mui-input-clear" placeholder="搜索" autocomplete>
+        </div>
+    </form>
+    <!-- 课程列表 -->
+    {foreach $catelist as $item}
+    <div class="mui-content" style="background-color:#fff">
+        <h5 style="background-color:#efeff4">
+            {$item.name}
+            <!-- 跳转到课程页面 -->
+            <a href="{:url('/home/subject/subject/search')}" style="float:right; margin-right:10px;">更多</a>
+        </h5>
+        <ul class="mui-table-view mui-grid-view">
+            {foreach $item.subject as $val}
+            <li class="mui-table-view-cell mui-media mui-col-xs-6">
+                <!-- 跳转到课程详情页 -->
+                <a href="{:url('/home/subject/subject/details',['subid' => $val.id])}">
+                    <img class="mui-media-object" src="{$val.thumbs_text}">
+                    <div class="mui-media-body">{$val.title}</div>
+                </a>
+            </li>
+            {/foreach}
+        </ul>
+    </div>
+    {/foreach}
+    <br />
+    <div class="mui-pull-caption mui-pull-caption-nomore">没有更多数据了</div>
+    <br />
+    {include file="common/footer"}
+</body>
+
+<script>
+    var mySwiper = new Swiper('.swiper', {
+        //无限循环
+        loop: true,
+        //可选选项，自动滑动
+        autoplay: {
+            delay: 2000,//1秒切换一次
+        },
+        // 左右箭头
+        // navigation: {
+        //     nextEl: '.swiper-button-next',
+        //     prevEl: '.swiper-button-prev',
+        // },
+        // 分页
+        pagination: {
+            el: '.swiper-pagination',
+            dynamicBullets: true,
+            clickable: true,
+            clickableClass: 'my-pagination-clickable',
+        },
+    })
+    // 初始化
+    new Swiper('.swiper')
+    var mySwiper = document.querySelector('.swiper').swiper
+    mySwiper.slideNext();    
+</script>

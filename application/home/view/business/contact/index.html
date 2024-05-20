@@ -1,0 +1,160 @@
+<link href="/assets/home/css/WeUI/weui.min.css" rel="stylesheet" />
+
+<!-- 轮播图插件 -->
+<link rel="stylesheet" href="/assets/home/swiper/swiper-bundle.min.css">
+<script src="/assets/home/swiper/swiper-bundle.min.js"></script>
+
+
+<!-- 地图 -->
+<script src="//api.map.baidu.com/api?v=3.0&ak=3WsVgGYtUk30YSBcAs2wwVFm4WkW4Mda"></script>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Microsoft YaHei';
+        background-color: rgb(245, 245, 245);
+    }
+
+    img {
+        width: 100%;
+    }
+
+    h1 {
+        text-align: center;
+        line-height: 20px;
+    }
+
+    .weui-article {
+        padding: 5px 15px;
+    }
+
+    small {
+        color: #0b720b;
+    }
+
+    h2 {
+        color: #0b720b;
+    }
+
+    .swiper img {
+        width: 100%;
+        height: 230px;
+    }
+
+    .map {
+        height: 16em;
+    }
+
+</style>
+
+<body>
+    <header class="mui-bar mui-bar-nav" style="position: sticky; touch-action: none;">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: gray;"
+            href="./personal-center.html"></a>
+        <h1 class="mui-title">联系我们</h1>
+    </header>
+    <!-- 轮播图 -->
+    <div class="swiper">
+        <div class="swiper-wrapper">
+            {foreach $toplist as $item}
+            <div class="swiper-slide">
+                <img src="{$item.thumbs_text}">
+            </div>
+            {/foreach}
+        </div>
+        <!-- <div class="swiper-button-prev"></div> -->
+        <!--左箭头。如果放置在swiper外面，需要自定义样式。-->
+        <!-- <div class="swiper-button-next"></div> -->
+        <!--右箭头。如果放置在swiper外面，需要自定义样式。-->
+        {foreach $toplist as $item}
+        <div class="swiper-pagination"></div>
+        {/foreach}
+    </div>
+    <article class="weui-article" style="text-align: center;
+    background-color: white;">
+        <h1>联&nbsp;系&nbsp;我&nbsp;们<br /><small>Contact Us</small></h1>
+        <section>
+            <h2 class="title">联系方式</h2>
+            <section>
+                <h3>市场销售&nbsp;&nbsp;&nbsp;&nbsp;<a href="tel:185-1242-1111" style="color: green;">185-1242-1111</a></h3>
+                <h3>技术支持&nbsp;&nbsp;&nbsp;&nbsp;<a href="139-1234-5678" style="color: green;">139-1234-5678</a></h3>
+                <h3>市场销售&nbsp;&nbsp;&nbsp;&nbsp;<a href="tel:178-1422-3211" style="color: green;">178-1422-3211</a></h3>
+                <h3>市场销售&nbsp;&nbsp;&nbsp;&nbsp;<a href="tel:152-2233-6555" style="color: green;">152-2233-6555</a></h3>
+            </section>
+            <h2 class="title">地址</h2>
+            <section>
+                <h3>广东省广州市海珠区</h3>
+            </section>
+        </section>
+    </article>
+
+    <!-- 地图 -->
+    <div class="map" id="map">
+        <p>
+            鼠标滚动实现地图的缩放
+            <br>
+            当前地图级别为:<span class="show" style='color:red;font-size:20px;font-weight: 700'>11</span>
+        </p>
+        <div id="allmap"></div>
+        <div id="zoomBtn">
+            <div onclick="addZoom()">+</div>
+            <div class="wrap_show">11</div>
+            <div onclick="delZoom()">-</div>
+        </div>
+    </div>
+    <br />
+    <br />
+    <br />
+
+    {include file="common/footer" /}
+
+</body>
+
+
+<script>
+    var mySwiper = new Swiper('.swiper', {
+        //无限循环
+        loop: true,
+        //可选选项，自动滑动
+        autoplay: {
+            delay: 2000,//1秒切换一次
+        },
+        // 左右箭头
+        // navigation: {
+        //     nextEl: '.swiper-button-next',
+        //     prevEl: '.swiper-button-prev',
+        // },
+        // 分页
+        pagination: {
+            el: '.swiper-pagination',
+            dynamicBullets: true,
+            clickable: true,
+            clickableClass: 'my-pagination-clickable',
+        },
+    })
+    // 初始化
+    new Swiper('.swiper')
+    var mySwiper = document.querySelector('.swiper').swiper
+    mySwiper.slideNext();    
+</script>
+<script>
+    //创建百度地图对象
+    var map = new BMap.Map("map");
+
+    // 初始化地图,设置中心点坐标和地图级别
+    // 113.26197, 23.10379 经纬度
+    //12 级别 级别越大 看的越近
+    map.centerAndZoom(new BMap.Point(113.26197, 23.10379), 12);
+
+    map.addControl(new BMap.MapTypeControl({
+        mapTypes: [
+            BMAP_NORMAL_MAP,
+            BMAP_HYBRID_MAP,
+        ]
+    }));
+
+    map.setCurrentCity("广州");  // 设置地图显示的城市 此项是必须设置的
+
+    map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+</script>

@@ -1,0 +1,43 @@
+<div class="panel panel-default panel-intro">
+  <div class="panel-heading">
+    {:build_heading(null, false)}
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#product" data-toggle="tab">商品资料</a></li>
+    </ul>
+  </div>
+
+
+  <div class="panel-body">
+    <div id="myTabContent" class="tab-content">
+      <!-- 客户资料 -->
+      <div class="tab-pane fade active in" id="product">
+        <div class="panel-body newrow prindBody">
+          <table id="BaseTable" class="table table-striped table-bordered table-hover table-nowrap" width="100%">
+            <div class="row">
+              <div class="col-xs-6 col-md-3">商品名称: {$info.name}</div>
+              <div class="col-xs-6 col-md-3">商品分类: {$info.type.name}</div>
+              <div class="col-xs-6 col-md-3">商品单位: {$info.unit.name}</div>
+              <div class="col-xs-6 col-md-3">商品价格: {$info.price}</div>
+              <div class="col-xs-6 col-md-3">商品库存: {$info.stock}</div>
+              <div class="col-xs-6 col-md-3">商品预警: {$info.minstock}</div>
+              <div class="col-xs-6 col-md-3">商品状态: {$info.status_text}</div>
+              <div class="col-xs-6 col-md-3">商品押金: {$info.rent}</div>
+              <div class="col-xs-6 col-md-3">商品日租: {$info.rent_price}</div>
+              <div class="col-xs-6 col-md-3">商品上下架: {$info.flag_text}</div>
+              <div class="col-xs-6 col-md-3">商品上市时间: {$info.createtime}</div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6 col-md-3">商品属性: {$info.prop}</div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6 col-md-3">商品图集: {$info.thumbs_text}</div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6 col-md-3">商品描述: {$info.content}</div>
+            </div>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

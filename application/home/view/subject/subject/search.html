@@ -1,0 +1,118 @@
+<link href="/assets/home/css/mui/mui.indexedlist.css" rel="stylesheet" />
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    html,
+    body {
+        height: 100%;
+        overflow: hidden;
+        font-family: 'Microsoft YaHei';
+    }
+
+    /* .mui-search input[type=search]{
+        margin-bottom:0px;
+    } */
+    .mui-table-view .mui-table-view-cell a {
+        display: flex;
+    }
+    .mui-table-view .mui-table-view-cell .thumb{
+        flex-shrink: 0;
+        width:35%;
+        margin-right:2%;
+    }
+    .mui-table-view .mui-table-view-cell .mui-media-object{
+        width:100%;
+        height:100%;
+        max-width:100%;
+    }
+    .mui-media-body {
+        display: flex;
+        flex-wrap: wrap;
+        align-content: space-between;
+    }
+
+    .mui-media-body .title {
+        color: #000;
+        width: 100%;
+        font-weight: bold;
+        font-size: 1.1em;
+    }
+
+    .mui-media-body .content {
+        width: 100%;
+        font-size: 1.1em;
+    }
+
+    .mui-media-body .info {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-content: center;
+        align-items: center;
+    }
+
+    .mui-media-body .info .like {
+        color: skyblue;
+        font-weight: bold;
+    }
+
+    .mui-media-body .info .price {
+        color: red;
+        font-weight: bold;
+        margin-top: 3px;
+    }
+
+    .nomore {
+        width: 100%;
+        text-align: center;
+        font-size: 1.3em;
+        font-weight: bold;
+        margin: 2em 0px;
+    }
+</style>
+
+<body>
+    <!-- 搜索框 -->
+    <form method="get">
+        <div class="mui-input-row mui-search">
+            <input type="search" name="keywords" class="mui-input-clear" placeholder="搜索">
+        </div>
+        {if condition="$subject"}
+        <ul class="mui-table-view">
+            {foreach $subject as $item}
+            <li class="mui-table-view-cell mui-media">
+                <a href="{:url('/home/subject/subject/details',['subid' => $item['id']])}">
+                    <div class="thumb">
+                        <img class="mui-media-object mui-pull-left" src="{$item.thumbs_text}">
+                    </div>
+                    <div class="mui-media-body">
+                        <h5 class="title">
+                            {$item.title}
+                        </h5>
+                        <p class='content'>
+                            {$item.content}
+                        </p>
+                        <p class='info'>
+                            <span class="like">
+                                <span class="mui-icon mui-icon-starhalf"></span>
+                                点赞 : {$item.likes_text}
+                            </span>
+                            <span class="price">
+                                ￥ : {$item.price}
+                            </span>
+                    </div>
+                </a>
+            </li>
+            {/foreach}
+        </ul>
+        {else /}
+        <div class="nomore">
+            没有更多数据了
+        </div>
+        {/if}
+    </form>
+    {include file="common/footer"}
+</body>

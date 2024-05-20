@@ -1,0 +1,135 @@
+<link rel="stylesheet" href="/assets/home/css/order.css" />
+
+<!-- 轮播图插件 -->
+<script src="/assets/home/echart/echarts.js"></script>
+
+<style>
+	body {
+		font-size: 1rem;
+	}
+</style>
+
+<body>
+	<header class="mui-bar mui-bar-nav" style="position: sticky; touch-action: none;">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: gray;"
+			href="./personal-center.html"></a>
+		<h1 class="mui-title">消费记录</h1>
+	</header>
+
+	<div id="main" style="width: 100%;height:200px;"></div>
+	<div id="mains" style="width: 100%;height:300px;"></div>
+
+	{include file="common/footer" /}
+</body>
+
+<script type="text/javascript">
+	$.ajax({
+		type: 'post',
+		url: '/home/business/expense/index',
+		dataType: 'json',
+		success: function (success) {
+			if (success.code) {
+				// 基于准备好的dom，初始化echarts实例
+				var myChart = echarts.init(document.getElementById('main'));
+
+				// 指定图表的配置项和数据
+				var option = {
+					tooltip: {},
+					legend: {
+						data: [
+							{
+								name: '课程价格',
+								icon: 'rect'
+							}
+						]
+					},
+
+					xAxis: {
+						name: '课程',
+						data: success.data[0],
+						axisLabel: {
+							//interval设置的是间隔数
+							interval: 0,
+							//旋转角度
+							rotate: 45,
+							margin: 2,
+							textStyle: {
+								color: "pink"
+							}
+						},
+
+					},
+					yAxis: {
+						name: '价格/订单'
+					},
+					series: [
+						{
+							name: '课程价格',
+							//图形
+							type: 'bar',
+
+							data: success.data[1]
+						},
+					]
+				};
+				// 使用刚指定的配置项和数据显示图表。
+				myChart.setOption(option);
+			}
+		}
+	})
+
+	$.ajax({
+		type: 'post',
+		url: '/home/business/expense/isyear',
+		dataType: 'json',
+		success: function (success) {
+			if (success.code) {
+				// 基于准备好的dom，初始化echarts实例s
+				var myChart = echarts.init(document.getElementById('mains'));
+
+				// 指定图表的配置项和数据
+				var option = {
+					tooltip: {},
+					legend: {
+						data: [
+							{
+								name: '消费图',
+								icon: 'circle'
+							}
+						]
+					},
+
+					xAxis: {
+						name: '时间',
+						data: success.data[1],
+						axisLabel: {
+							//interval设置的是间隔数
+							interval: 0,
+							//旋转角度
+							rotate: 25,
+							margin: 2,
+							textStyle: {
+								color: "pink"
+							}
+						},
+
+					},
+					yAxis: {
+						name: '消费余额',
+					},
+					series: [
+						{
+							name: '消费图',
+							//图形
+							type: 'line',
+
+							data: success.data[0]
+						},
+					]
+				};
+				// 使用刚指定的配置项和数据显示图表。
+				myChart.setOption(option);
+			}
+		}
+	})
+</script>

@@ -1,0 +1,24 @@
+<div class="panel panel-default panel-intro">
+    {:build_heading()}
+    <div class="panel-body">
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade active in" id="one">
+                <div class="widget-body no-padding">
+                    <div id="toolbar" class="toolbar">
+                        {:build_toolbar('refresh')}
+
+                        <a href="javascript:void(0)"
+                            class="btn btn-success btn-restore btn-disabled disabled {:$auth->check('product/product/restore')?'':'hide'}"
+                            title="{:__('Restore')}">
+                            <i class="fa fa-reply"></i> {:__('Restore')}
+                        </a>
+                        {:build_toolbar('del')}
+                    </div>
+                </div>
+                <table id="table" class="table table-striped table-bordered table-hover table-nowrap"
+                    data-operate-restore="{:$auth->check('product/product/restore')}"
+                    data-operate-del="{:$auth->check('product/product/destroy')}" width="100%">
+                </table>
+            </div>
+        </div>
+    </div>

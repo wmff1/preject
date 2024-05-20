@@ -1,0 +1,81 @@
+<style>
+    body {
+        font-family: 'Microsoft YaHei';
+    }
+
+    p {
+        font-size: 4.5vw;
+        margin-bottom: 0;
+    }
+</style>
+</head>
+
+<body>
+    <div class="top_div">
+        <img src="/assets/home/images/bac.jpg" class="top_img">
+        <div class="userInfo">
+            <a href="javascript:void(0)">
+                <img class="uPic" src="{$LoginAuth.avatar_text}" />
+                <br />
+            </a>
+            <br />
+            <p class="uBalance" style="color: rgb(74, 70, 66); ">
+                {if condition="$LoginAuth.nickname"}
+                {$LoginAuth.nickname}
+                {else /}
+                {$LoginAuth.mobile_text}
+                {/if}
+            </p>
+        </div>
+    </div>
+
+    <!-- 菜单 -->
+    <ul class="mui-table-view">
+        <li class="mui-table-view-cell">
+            <a class="mui-navigate-right" href="{:url('/home/business/business/profile')}">
+                我的资料
+            </a>
+        </li>
+        <li class="mui-table-view-cell">
+            <a class="mui-navigate-right" href="{:url('/home/business/order/index')}">
+                我的订单
+            </a>
+        </li>
+        <li class="mui-table-view-cell">
+            <a class="mui-navigate-right">
+                充值中心
+            </a>
+        </li>
+        <li class="mui-table-view-cell">
+            <a class="mui-navigate-right" href="{:url('/home/business/expense/index',['busid'=> $LoginAuth['id']])}">
+                数据分析
+            </a>
+        </li>
+        <li class="mui-table-view-cell">
+            <a class="mui-navigate-right" href="{:url('/home/business/contact/index')}">
+                联系我们
+            </a>
+        </li>
+        <li class="mui-table-view-cell">
+            <a id="logout" class="mui-navigate-right">
+                退出登录
+            </a>
+        </li>
+    </ul>
+
+    <!-- 底部 -->
+    {include file="common/footer" /}
+</body>
+
+
+<script>
+    document.getElementById("logout").addEventListener('tap', function () {
+        var btnArray = ['是', '否'];
+        mui.confirm('是否确认退出登录','退出登录', btnArray, function (e) {
+            if (e.index == 0) {
+                location.href = `/home/index/logout`
+                return false
+            }
+        })
+    });
+</script>

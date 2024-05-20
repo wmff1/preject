@@ -1,0 +1,68 @@
+<div class="panel panel-default panel-intro">
+  <div class="panel-heading">
+    {:build_heading(null, false)}
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#base" data-toggle="tab">客户资料</a></li>
+      <li><a href="#visit" data-toggle="tab">回访列表</a></li>
+      <li><a href="#receive" data-toggle="tab">申请记录</a>
+    </ul>
+  </div>
+  <div class="panel-body">
+    <div id="myTabContent" class="tab-content">
+
+      <!-- 要注意 id 和 href 属性的捆绑 -->
+
+      <!-- 客户资料 -->
+      <div class="tab-pane fade active in" id="base">
+        <div class="panel-body newrow prindBody">
+          <table id="BaseTable" class="table table-striped table-bordered table-hover table-nowrap" width="100%">
+            <div class="row">
+              <div class="col-xs-6 col-md-3">姓名: {$info.nickname}</div>
+              <div class="col-xs-6 col-md-3">手机号: {$info.mobile}</div>
+              <div class="col-xs-6 col-md-3">邮箱: {$info.email}</div>
+              <div class="col-xs-6 col-md-3">性别: {$info.gender}</div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6 col-md-3">省: {$info.province_text}</div>
+              <div class="col-xs-6 col-md-3">城市: {$info.city_text}</div>
+              <div class="col-xs-6 col-md-3">地区: {$info.district_text}</div>
+              <div class="col-xs-6 col-md-3"></div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6 col-md-3">来源: {$info.source['name']}</div>
+              <div class="col-xs-6 col-md-3">申请管理员: {$info.admin_name['nickname']}</div>
+              <div class="col-xs-6 col-md-3"></div>
+              <div class="col-xs-6 col-md-3"></div>
+            </div>
+          </table>
+        </div>
+      </div>
+
+      <!-- 回访列表 -->
+      <div class="tab-pane fade" id="visit">
+        <div class="panel-body newrow prindBody">
+          <div id="visitTable" class="visitTable">
+            {:build_toolbar('refresh,add,edit,del')}
+          </div>
+          <table id="ViTable" class="table table-striped table-bordered table-hover table-nowrap"
+            data-operate-del="{:$auth->check('business/lists/edit')}"
+            data-operate-del="{:$auth->check('business/lists/del')}" width="100%">
+          </table>
+
+        </div>
+      </div>
+
+      <!-- 申请记录 -->
+      <div class="tab-pane fade" id="receive">
+        <div class="panel-body newrow prindBody">
+          <div id="receiveTable" class="receiveTable">
+            {:build_toolbar('refresh,del')}
+          </div>
+          <table id="reTable" class="table table-striped table-bordered table-hover table-nowrap"
+            data-operate-del="{:$auth->check('business/lists/del')}" width="100%">
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

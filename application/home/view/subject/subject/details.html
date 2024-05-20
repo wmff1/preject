@@ -1,0 +1,275 @@
+<link href="/assets/home/css/WeUI/weui.min.css" rel="stylesheet" />
+<link href="/assets/home/css/MyCenter.css" rel="stylesheet" />
+<style>
+    body {
+        font-family: 'Microsoft YaHei';
+    }
+
+    p {
+        font-size: 4.5vw;
+    }
+
+    .title {
+
+        margin: 20px 15px 10px;
+        color: #6d6d72;
+        font-size: 15px;
+        /* display: ; */
+    }
+
+    .userimg {
+        border-radius: 50px;
+    }
+</style>
+<!-- 加载ckplayer视频插件 -->
+<script src="/assets/home/plugin/ckplayer/ckplayer.min.js"></script>
+
+<body>
+    <div id="cover">
+        <!-- 课程封面 -->
+        <img src="{$subject.thumbs_text}" style="width:100%;" />
+
+        <!-- 中间播放按钮 -->
+        <div id="play" style="width:100%; height:70vw; text-align:center; line-height:80vw; position:absolute; top:0; ">
+            <img style="width:20vw; height:20vw;" src="/assets/home/images/play.png" />
+        </div>
+    </div>
+    <div id="video" style="width:100%;"></div>
+
+    <!-- 课程信息 -->
+    <div class="weui-panel weui-panel_access" style="margin-top:0;">
+        <div class="weui-panel__bd">
+            <div class="weui-media-box weui-media-box_text">
+                <!-- 标题 -->
+                <h4 class="weui-media-box__title">
+                    {$subject.title}
+                    <!-- 点赞 -->
+                    <span id="likes" style="float:right; margin-right:10px; color:#6d6d72; font-size:3vw;">
+                        {if condition="$likes"}
+                        <span style="color: red;" class="mui-icon mui-icon-starhalf"></span>
+                        {else /}
+                        <span class="mui-icon mui-icon-starhalf"></span>
+                        {/if}
+                        <span id="zan">{$subject.likes_text}</span>
+                    </span>
+                </h4>
+
+                <!-- 价格 -->
+                <h4 class="weui-media-box__title" style="color: #ff0000; font-weight: 600;">
+                    ￥{$subject.price}元
+                </h4>
+
+                <!-- 描述 -->
+                <p class="weui-media-box__desc">
+                    {$subject.content}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 课程章节 -->
+    <div class="mui-content">
+        <div class="title">课程章节</div>
+        {if condition="$lists"}
+        <ul class="mui-table-view">
+            {foreach $lists as $key=>$item}
+            <li data-listid="{$item.id}" class="mui-table-view-cell" onclick="play(this)">{$key + 1}. {$item.title}</li>
+            {/foreach}
+        </ul>
+        {else /}
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell">该课程目前没有章节</li>
+        </ul>
+        {/if}
+
+    </div>
+
+
+    <!-- 用户评论 -->
+    <div class="mui-content" id="comment">
+        <div class="title">用户评论</div>
+        {if condition="$comments"}
+        <ul class="mui-table-view">
+            {foreach $comments as $item}
+            {if condition="$item.comment"}
+            <li class="mui-table-view-cell mui-media">
+                <a href="javascript:;">
+                    <img class="mui-media-object mui-pull-left userimg" src="{$item.business['avatar_text']}">
+                    <div class="mui-media-body">
+                        <p>{$item.business['nickname']}</p>
+                        <p style="display: inline;" class='mui-ellipsis'>{$item.comment}</p>
+                        <!-- 点赞 -->
+                        <span id="likes" style="float:right; margin-right:10px; color:#6d6d72; font-size:3vw;">
+                            {if condition="$item.rate"}
+                            <span style="color: red;" class="mui-icon">{$item.rate}分</span>
+                            {else /}
+                            <span class="mui-icon"></span>
+                            {/if}
+                            <span id="zan"></span>
+                        </span>
+                    </div>
+                </a>
+            </li>
+                {else /}
+                <li class="mui-table-view-cell">该课程目前没有评论</li>
+                {/if}
+            {/foreach}
+        </ul>
+        {else /}
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell">该课程目前没有评论</li>
+        </ul>
+        {/if}
+    </div>
+    <br />
+    <br />
+    <br />
+
+    <!-- 弹出菜单 -->
+    <div id="sheet1" class="mui-popover mui-popover-bottom mui-popover-action ">
+        <!-- 可选择菜单 -->
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell">
+                <a id="buy" href="javascript:void(0)">立即购买</a>
+            </li>
+        </ul>
+        <!-- 取消菜单 -->
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell">
+                <a href="#sheet1"><b>取消</b></a>
+            </li>
+        </ul>
+    </div>
+
+    {include file="common/footer" /}
+</body>
+<script>
+    // 点赞
+    $('#likes').click(function () {
+        //触发Ajax异步请求
+        $.ajax({
+            type: 'post',
+            url: '/home/subject/subject/likes',
+            data: {
+                subid: `{$subject.id}`
+            },
+            datatype: 'json',
+            success: function (success) {
+                if (success.code) {
+                    mui.toast(success.msg)
+
+                    setTimeout(function () {
+                        location.reload()
+                    }, 1000)
+                } else {
+                    mui.toast(success.msg)
+                    return false
+                }
+            }
+        })
+    })
+
+    //章节点击
+    function play(that) {
+        //获取章节id
+        var listid = $(that).data('listid') ? $(that).data('listid') : 0;
+        // console.log(listid);
+        // return false
+        AsyncData(listid)
+    }
+
+    //视频播放
+    $('#play').click(function () {
+        AsyncData()
+    })
+
+    //购买
+    $('#buy').click(function () {
+        //默认隐藏弹出框
+        mui('#sheet1').popover('toggle')
+
+        //确认对话框
+        mui.confirm('是否确认购买', '对话框', ['购买', '取消'], function (e) {
+            if (e.index == 0) {
+                $.ajax({
+                    type: 'post',
+                    url: `{:url('/home/subject/subject/buy')}`,
+                    data: {
+                        'subid': `{$subject.id}`
+                    },
+                    datatype: 'json',
+                    success: function (success) {
+                        if (success.code) {
+                            //成功
+                            mui.toast(success.msg)
+
+                            setTimeout(function () {
+                                location.href = `{:url('/home/subject/subject/complete',['subid' => $subject['id']])}`
+                                return false
+                            }, 2000)
+                        } else {
+                            //失败
+                            mui.toast(success.msg)
+                        }
+                    }
+                })
+            }
+        })
+    })
+
+    function AsyncData(listid = 0) {
+        $.ajax({
+            type: 'post',
+            url: `{:url('/home/subject/subject/play')}`,
+            data: {
+                'subid': `{$subject.id}`,
+                listid: listid
+            },
+            datatype: 'json',
+            success: function (success) {
+                if (success.code) {
+                    //成功
+                    //通过$this->success返回的数据
+                    var url = success.data.url
+
+                    //没有播放地址
+                    if (!url) {
+                        mui.toast('暂无播放地址')
+                        return false
+                    }
+
+                    //有播放地址
+                    $("#cover").css('display', 'none')
+
+                    //封装视频对象
+                    var videoObject = {
+                        container: '#video', //容器的ID或className
+                        variable: 'player',//播放函数名称
+                        autoplay: true,
+                        webFull: false, //开启全屏
+                        theatre: null, //剧场模式
+                        controls: true, //控制栏
+                        volume: 0.5,//默认音量为0.5
+                        smallWindows: null,//是否启用小窗口模式
+                        smallWindowsDrag: true,//小窗口开启时是否可以拖动
+                        screenshot: true,//截图功能是否开启
+                        timeScheduleAdjust: 5, //是否可调节播放进度
+                        video: [//视频地址列表形式
+                            [url, 'video/mp4', '中文标清', 0],
+                        ]
+                    }
+                    var player = new ckplayer(videoObject)
+                } else {
+                    //有登录，但是没有买
+                    if (success.data == "buy") {
+                        //传入toggle参数，用户无需关心当前是显示还是隐藏状态，mui会自动识别处理；
+                        mui('#sheet1').popover('toggle')
+                    } else {
+                        //失败
+                        mui.toast(success.msg)
+                    }
+                }
+            }
+        })
+    }
+</script>
