@@ -45,7 +45,7 @@ class Order extends Controller
         }
     }
 
-    // 再一次提交
+    // 第二次提交
 
     /**
      * 订单入库操作
